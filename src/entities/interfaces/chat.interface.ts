@@ -1,3 +1,4 @@
+import { Repo } from "./base.interface";
 
 export interface IChatRepo extends Repo<ChatInstance> {
     getChatById(chatId: string): Promise<ChatInstance>;

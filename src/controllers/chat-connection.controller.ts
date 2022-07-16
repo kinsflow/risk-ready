@@ -1,4 +1,3 @@
-import Chat from "../database/models/chat";
 import { ChatDTO, IChatRepo } from "../entities/interfaces/chat.interface";
 import ChatRepo from "../entities/repositories/chat.repository";
 import { BaseController } from "./base.controller";

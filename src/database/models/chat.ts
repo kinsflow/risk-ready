@@ -7,12 +7,11 @@ import {
   Sequelize
 } from 'sequelize';
 
-const dbUrl = process.env.DEV_DATABASE_URL;
 
-/**
- * @todo replace hardcoded db connection string this with environmantal variables
- */
-const sequelize = new Sequelize('postgres://kingsley@127.0.0.1:5432/oneroute');
+
+const databaseUrl: string = (process.env.DEV_DATABASE_URL as string);
+
+const sequelize = new Sequelize(databaseUrl);
 class Chat extends Model<InferAttributes<Chat>, InferCreationAttributes<Chat>> {
   declare id: CreationOptional<number>;
   declare last_connection: CreationOptional<Date>;
