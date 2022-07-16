@@ -1,12 +1,13 @@
 import { Op } from 'sequelize'
+import Chat from '../../database/models/chat';
 import { ChatInstance, IChatRepo } from '../interfaces/chat.interface';
 import { ChatMap } from '../mappers/chat.mapper';
 
 class ChatRepo implements IChatRepo {
     private models: any;
 
-    constructor(models: any) {
-        this.models = models;
+    constructor() {
+        this.models = new Chat();
     }
 
     private createQueryObject(): any {

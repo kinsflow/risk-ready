@@ -24,6 +24,7 @@ app.use((error: any , req: Request, res: Response, next: NextFunction) => {
       error: {
         status: error.status || 500,
         message: error.message || 'Internal Server Error',
+        stacktrace: process.env.NODE_ENV == 'developement' ? error : null
       },
     });
     next()
