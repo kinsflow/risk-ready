@@ -1,24 +1,18 @@
-import { Op } from 'sequelize'
+import { Model, Op } from 'sequelize'
 import Chat from '../../database/models/chat';
-import { ChatInstance, IChatRepo } from '../interfaces/chat.interface';
+import { ChatAttribute, ChatInstance, IChatRepo } from '../interfaces/chat.interface';
 import { ChatMap } from '../mappers/chat.mapper';
 
 class ChatRepo implements IChatRepo {
-    private models: any;
+    private model: any;
 
     constructor() {
-        this.models = new Chat();
+        this.model = Chat;
     }
-
-    private createQueryObject(): any {
-        const { } = this.models;
-        return {
-            where: {},
-        }
-    }
+    
 
     public async exists(chat: ChatInstance): Promise<boolean> {
-        const ChatModel = this.models.Chat;
+        const ChatModel = this.model.Chat;
         const result = await ChatModel.findOne({
             where: { id: chat.id.toString() }
         });
@@ -26,14 +20,14 @@ class ChatRepo implements IChatRepo {
     }
 
     public delete(chat: ChatInstance): Promise<any> {
-        const ChatModel = this.models.Chat;
+        const ChatModel = this.model.Chat;
         return ChatModel.destroy({
             where: { id: chat.id.toString() }
         })
     }
 
     public async save(chat: ChatInstance): Promise<any> {
-        const ChatModel = this.models.Chat;
+        const ChatModel = this.model.Chat;
         const exists = await this.exists(chat);
         const rawChatData = ChatMap.toPersistence(chat);
 
@@ -61,10 +55,13 @@ class ChatRepo implements IChatRepo {
         throw new Error('Method not implemented.');
     }
     findAllChatByReceiverId(userId: string): Promise<ChatInstance[]> {
-        throw new Error('Method not implemented.');
+        throw new Error('Method not implemented.' + 'aye aye');
     }
     getById(id: string): Promise<ChatInstance> {
         throw new Error('Method not implemented.');
+    }
+    async create(chat: ChatAttribute): Promise<ChatInstance> {
+        return await this.model.create(chat)
     }
 }
 

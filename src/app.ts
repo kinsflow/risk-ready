@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const apiLevelMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    console.log('Request URL:', req.originalUrl);
+    // console.log('Request URL:', req.originalUrl);
     next()
 }
 
