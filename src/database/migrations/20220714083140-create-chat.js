@@ -1,9 +1,6 @@
-import {
-    QueryInterface,
-} from 'sequelize';
 
-export default {
-    up: (queryInterface: QueryInterface, Sequelize) => {
+module.exports = {
+    up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('Chats', {
             id: {
                 allowNull: false,
@@ -13,7 +10,7 @@ export default {
             },
 
             last_connection: {
-                type: Sequelize.DATATIME
+                type: Sequelize.DATE
             },
 
             createdAt: {
@@ -28,7 +25,7 @@ export default {
         });
     },
 
-    down: (queryInterface: QueryInterface, _Sequelize) => {
+    down: (queryInterface, _Sequelize) => {
         return queryInterface.dropTable('Chats');
     }
 };

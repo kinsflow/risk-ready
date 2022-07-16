@@ -1,6 +1,6 @@
-interface Repo<T> {
-    exists(t: T): Promise<boolean>;
-    delete(t: T): Promise<any>;
-    getById(id: string): Promise<T>;
-    save(t: T): Promise<any>;
+interface Repo<Type> {
+    exists(t: Type): Promise<boolean>;
+    delete(t: Type): Promise<any>;
+    getById(id: string): Promise<Type>;
+    save(t: Type): Promise<any>;
   }

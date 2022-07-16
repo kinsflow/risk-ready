@@ -1,30 +1,17 @@
 import {
-    Sequelize,
-    DataTypes
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  CreationOptional
 } from 'sequelize';
 
-export interface ChatAttributes {
-    last_connection ? : datatime
 
+class Chat extends Model<InferAttributes<Chat>, InferCreationAttributes<Chat>> {
+  declare id: CreationOptional<number>;
+  declare last_connection: CreationOptional<Date>;
+
+  declare static associations: {
+
+  }
 }
-
-export interface ChatInstance {
-    id: number;
-    createdAt: Date;
-    updatedAt: Date;
-
-    last_connection: datatime
-
-}
-
-export default (sequelize: Sequelize, DataTypes: DataTypes) => {
-    var Chat = sequelize.define('Chat', {
-        last_connection: DataTypes.DATATIME
-    });
-
-    Chat.associate = function(models) {
-        // associations can be defined here
-    };
-
-    return Chat;
-};
+export default Chat;
