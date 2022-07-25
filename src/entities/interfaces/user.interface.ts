@@ -1,7 +1,9 @@
 import { Repo } from "./base.interface";
 
 export interface IUserRepo extends Repo<UserInstance> {
-    signUp(userInfo: UserAttribute, profilePicture?: any): Promise<UserInstance>
+    signUp(userInfo: UserAttribute, profilePicture?: any): Promise<UserInstance>;
+    verifyEmail(email: string, token: number): Promise<UserInstance>;
+    findByEmail(email: string): Promise<any>
 }
 
 export interface UserInstance {
@@ -11,6 +13,9 @@ export interface UserInstance {
     email: string,
     email_verified_at: Date,
     password: string,
+    token: number,
+    createdAt?: Date,
+    updatedAt: Date,
 }
 
 export interface UserAttribute {
@@ -19,6 +24,7 @@ export interface UserAttribute {
     email?: string,
     email_verified_at?: Date,
     password?: string,
+    token?: number
 }
 
 export interface UserDTO {
@@ -28,4 +34,5 @@ export interface UserDTO {
     email: string,
     email_verified_at: Date,
     password: string,
+    token?: number
 }

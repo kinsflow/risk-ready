@@ -19,6 +19,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare first_name: String;
     declare last_name: String;
     declare email: String;
+    declare token: CreationOptional<number>
     declare email_verified_at: CreationOptional<Date>;
     declare password: String;
     declare createdAt: CreationOptional<Date>;
@@ -58,7 +59,10 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-
+    token: {
+        type: DataTypes.NUMBER,
+        allowNull: true
+      },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
 }, {

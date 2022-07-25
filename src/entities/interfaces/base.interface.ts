@@ -1,5 +1,5 @@
 export interface Repo<Type> {
-    exists(t: Type): Promise<boolean>;
+    exists(t: Type | string): Promise<boolean>;
     delete(t: Type): Promise<any>;
     getById(id: string): Promise<Type>;
     save(t: Type): Promise<any>;

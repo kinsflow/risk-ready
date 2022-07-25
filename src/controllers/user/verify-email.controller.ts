@@ -1,9 +1,9 @@
 import { IUserRepo, UserDTO } from "../../entities/interfaces/user.interface";
 import UserRepo from "../../entities/repositories/user.repository";
-import emailVerification from "../../notification/email-verification.notification";
 import { BaseController } from "../base.controller";
 
-class SignUpController extends BaseController {
+class VerifyEmailController extends BaseController {
+
     private UserRepo: IUserRepo;
 
     public constructor() {
@@ -13,14 +13,14 @@ class SignUpController extends BaseController {
     }
     protected async executeImpl(): Promise<any> {
         try {
-            const userInfo = this.req.body;
-            const userProfilePhoto = this.req.file;
+            const { email, token } = this.req.body;
 
-            const signUp = await this.UserRepo.signUp(userInfo, userProfilePhoto);
+            if (!email || !token) {
+                throw 'Ensure token and password are passed'
+            }
+            const verifyEmail = await this.UserRepo.verifyEmail(email, token);
 
-            emailVerification(signUp.email, signUp.token);
-
-            return this.ok<UserDTO>(this.res, signUp, 'Sign up successful, check email for verification code');
+            return this.ok<UserDTO>(this.res, verifyEmail, 'User Email Verified Successfully')
         } catch (error: any) {
             if (error?.name == 'SequelizeValidationError') {
                 return this.clientError(error, 422);
@@ -31,5 +31,4 @@ class SignUpController extends BaseController {
         }
     }
 }
-
-export default SignUpController
+export default VerifyEmailController

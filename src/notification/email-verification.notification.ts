@@ -3,12 +3,15 @@ import path from 'path';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const emailVerification = (email: string) => {
+const emailVerification = (email: string, token: number) => {
     var mailOptions = {
         from: process.env.MAIL_FROM_ADDRESS,
         to: email,
-        subject: 'Sending Email using Node.js',
-        template: 'index',
+        subject: 'Email Verification',
+        template: 'email-verification',
+        context: {
+            token
+        }
         // attachments: [
         //     { filename: 'abc.jpg', path: path.resolve(__dirname, './image/abc.jpg') }
         // ]
