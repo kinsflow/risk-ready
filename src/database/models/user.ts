@@ -62,14 +62,17 @@ User.init({
     token: {
         type: DataTypes.NUMBER,
         allowNull: true
-      },
+    },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
 }, {
     sequelize,
     modelName: 'User',
-    defaultScope: {
-        attributes: { exclude: ['password'] }
+
+    scopes: {
+        withoutPassword: {
+            attributes: { exclude: ['password'] }
+        }
     }
 });
 
