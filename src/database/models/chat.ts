@@ -11,7 +11,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const databaseUrl: string = (process.env.DEV_DATABASE_URL as string);
+const databaseUrl: string = (process.env.DATABASE_URL as string);
 
 const sequelize = new Sequelize(databaseUrl);
 class Chat extends Model<InferAttributes<Chat>, InferCreationAttributes<Chat>> {
