@@ -3,6 +3,7 @@
     "compilerOptions": {
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
+      "module": "commonjs"
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules"]
