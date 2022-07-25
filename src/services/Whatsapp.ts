@@ -1,4 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const Whatsapp: AxiosInstance = axios.create();
 

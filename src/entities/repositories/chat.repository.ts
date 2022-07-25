@@ -6,7 +6,7 @@ import { ChatMap } from '../mappers/chat.mapper';
 class ChatRepo implements IChatRepo {
     private model: any;
 
-    constructor() {
+    public constructor() {
         this.model = Chat;
     }
     
@@ -60,7 +60,7 @@ class ChatRepo implements IChatRepo {
     getById(id: string): Promise<ChatInstance> {
         throw new Error('Method not implemented.');
     }
-    async create(chat: ChatAttribute): Promise<ChatInstance> {
+    async create(chat: ChatAttribute): Promise<ChatInstance> {        
         return await this.model.create(chat)
     }
 }

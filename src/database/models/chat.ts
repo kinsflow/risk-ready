@@ -7,7 +7,9 @@ import {
   Sequelize
 } from 'sequelize';
 
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 const databaseUrl: string = (process.env.DEV_DATABASE_URL as string);
 
@@ -31,7 +33,7 @@ Chat.init({
   },
   last_connection: {
     type: DataTypes.DATE,
-    allowNull: true
+    allowNull: false
   },
   createdAt: DataTypes.DATE,
   updatedAt: DataTypes.DATE,

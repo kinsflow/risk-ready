@@ -7,15 +7,21 @@ class ChatConnectionController extends BaseController {
 
     public constructor() {
         super();
-        this.ChatRepo =  new ChatRepo;
+        this.ChatRepo = new ChatRepo;
     }
 
     protected async executeImpl(): Promise<any> {
-        const createChat = await this.ChatRepo.create({
-            last_connection: new Date()
-        });
+        try {
+            const createChat = await this.ChatRepo.create({
+                last_connection: this.req.body.last_connection
+            });
 
-        return this.ok<ChatDTO>(this.res, createChat)
+            return this.ok<ChatDTO>(this.res, createChat)
+        } catch (err: any) {
+            // console.log('kay', err.errors[0].message, this.req.body);
+            
+            return this.clientError(err);
+        }
     }
 }
 
