@@ -3,7 +3,10 @@
     "compilerOptions": {
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true,
-      "module": "commonjs"
+      "module": "commonjs",
+      "outDir": "dist",
+      "sourceMap": true,
+      "target": "es6",
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules"]
