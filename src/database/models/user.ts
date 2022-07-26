@@ -13,7 +13,14 @@ dotenv.config();
 
 const databaseUrl: string = (process.env.DATABASE_URL as string);
 
-const sequelize = new Sequelize(databaseUrl);
+const sequelize = new Sequelize(databaseUrl, {
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+});
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare id: CreationOptional<number>;
     declare first_name: String;
