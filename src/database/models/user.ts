@@ -15,9 +15,9 @@ const databaseUrl: string = (process.env.DATABASE_URL as string);
 
 const sequelize = new Sequelize(databaseUrl, {
     dialectOptions: {
-        ssl: {
-            require: process.env.NODE_ENV == 'production',
-            rejectUnauthorized: process.env.NODE_ENV != 'production'
+        ssl: process.env.NODE_ENV == 'production' && {
+            require: true,
+            rejectUnauthorized: false
         }
     }
 });
