@@ -1,1 +1,1 @@
-web:node dist/index.js && npx sequelize db:migrate:all
+web:ts-node src/server.ts && npx sequelize db:migrate:all
