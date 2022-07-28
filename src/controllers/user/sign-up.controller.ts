@@ -22,12 +22,7 @@ class SignUpController extends BaseController {
 
             return this.ok<UserDTO>(this.res, signUp, 'Sign up successful, check email for verification code');
         } catch (error: any) {
-            if (error?.name == 'SequelizeValidationError') {
-                return this.clientError(error, 422);
-            }
-            else {
                 return this.clientError(error);
-            }
         }
     }
 }

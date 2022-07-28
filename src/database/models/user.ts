@@ -79,6 +79,9 @@ User.init({
     scopes: {
         withoutPassword: {
             attributes: { exclude: ['password'] }
+        },
+        withoutToken: {
+            attributes: { exclude: ['token'] }
         }
     }
 });

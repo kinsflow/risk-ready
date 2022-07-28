@@ -4,6 +4,7 @@ import emailVerification from "../../notification/email-verification.notificatio
 import { IUserRepo, UserAttribute, UserInstance } from "../interfaces/user.interface";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import forgotPassword from "../../notification/forgot-password.notification";
 class UserRepo implements IUserRepo {
     private model: any;
 
@@ -40,7 +41,7 @@ class UserRepo implements IUserRepo {
         if (! await this.exists(email)) {
             throw 'This account does not exist'
         }
-        const  user  = await this.findByEmail(email);
+        const user = await this.findByEmail(email);
 
         const isPasswordMatch = await bcryptjs.compare(password, user.password);
 
@@ -101,6 +102,28 @@ class UserRepo implements IUserRepo {
 
     /**
      * 
+     * Handle Forgot password request.
+     * 
+     * @param email 
+     * @returns 
+     */
+    async forgotPassword(email: string): Promise<UserAttribute> {
+        if (! await this.exists(email)) {
+            throw 'This account does not exist'
+        }
+
+        const user = await this.findByEmail(email);
+
+        user.token = generateOTP();
+        user.save();
+
+        forgotPassword(email, user.token);
+
+        return await user
+    }
+
+    /**
+     * 
      * Query to get users based on email
      * @param email 
      * @returns 
@@ -108,6 +131,44 @@ class UserRepo implements IUserRepo {
     async findByEmail(email: string): Promise<any> {
         return await this.model.findOne({ where: { email: email } })
     }
+
+    /**
+     * Reset user password.
+     * 
+     * @param email 
+     * @param token 
+     * @param password 
+     * @returns 
+     */
+    async resetPassword(email: string, token: number, password: string): Promise<UserInstance> {
+        if (! await this.exists(email)) {
+            throw 'This account does not exist'
+        }
+
+        const user = await this.findByEmail(email);
+
+        if (user.token !== token) {
+            throw 'invalid token/otp'
+        }
+
+        const lastUpdated = new Date(user.updatedAt);
+        const oneHourAgo = new Date(Date.now() - (60 * 60 * 1000));
+
+        if (!(lastUpdated > oneHourAgo)) {
+            throw 'token/otp has expired';
+        }
+
+        user.token = null;
+        user.password = await bcryptjs.hash(password, 10)
+        user.save();
+
+        return await user;
+    }
+    /**
+     * Check if a user ccount exists
+     * @param email 
+     * @returns 
+     */
     async exists(email: string): Promise<boolean> {
         return await this.findByEmail(email) instanceof User
     }

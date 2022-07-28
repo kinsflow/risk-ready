@@ -15,19 +15,14 @@ class SignInController extends BaseController {
             const { email, password } = this.req.body;
 
             if (!email || !password) {
-                throw 'Please compute username and password'
+                throw 'Please compute email and password'
             }
 
             const signIn = await this.UserRepo.signIn(email, password);
 
             return this.ok<UserDTO>(this.res, signIn, 'Sign in successful');
         } catch (error: any) {
-            if (error?.name == 'SequelizeValidationError') {
-                return this.clientError(error, 422);
-            }
-            else {
-                return this.clientError(error);
-            }
+                return this.clientError(error, 401);
         }
     }
 
