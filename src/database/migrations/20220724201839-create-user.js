@@ -24,6 +24,11 @@ module.exports = {
       email_verified_at: {
         type: Sequelize.DATE,
       },
+      phone: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
       password: {
         type: Sequelize.STRING,
         allowNull: false

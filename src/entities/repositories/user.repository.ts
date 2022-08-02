@@ -25,6 +25,7 @@ class UserRepo implements IUserRepo {
             first_name: userInfo.first_name,
             last_name: userInfo.last_name,
             email: userInfo.email,
+            phone: userInfo.phone,
             password: await bcryptjs.hash(userInfo.password, 10),
             token: generateOTP()
         })
@@ -49,7 +50,8 @@ class UserRepo implements IUserRepo {
             throw 'invalid credentials';
         }
 
-        const token = jwt.sign({ id: user.id, email: user.email }, 'key', {
+        const token = jwt.sign({ id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name }, 'secret', {
+            algorithm: "HS256",
             expiresIn: "5000h",
         })
 
@@ -124,7 +126,8 @@ class UserRepo implements IUserRepo {
 
     /**
      * 
-     * Query to get users based on email
+     * Query to get users based on email.
+     * 
      * @param email 
      * @returns 
      */
@@ -164,6 +167,22 @@ class UserRepo implements IUserRepo {
 
         return await user;
     }
+
+    async updateProfile(id: string, userProfile: any): Promise<UserInstance> {
+
+        const updatePassword = this.model.update({
+            first_name: userProfile.first_name,
+            last_name: userProfile.last_name,
+            email: userProfile.email,
+            phone: userProfile.phone
+        }, {
+            where: {
+                id
+            }
+        })
+
+        return await updatePassword;
+    }
     /**
      * Check if a user ccount exists
      * @param email 
@@ -175,9 +194,18 @@ class UserRepo implements IUserRepo {
     delete(t: UserInstance): Promise<any> {
         throw new Error("Method not implemented.");
     }
-    getById(id: string): Promise<UserInstance> {
-        throw new Error("Method not implemented.");
+
+    /**
+     * 
+     * Get a single user model instance by ID.
+     * 
+     * @param id 
+     * @returns 
+     */
+    async getById(id: string): Promise<any> {
+        return await this.model.findOne({ where: { id } })
     }
+    
     save(t: UserInstance): Promise<any> {
         throw new Error("Method not implemented.");
     }

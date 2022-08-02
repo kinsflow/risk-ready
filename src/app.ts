@@ -3,6 +3,7 @@ import express from 'express'
 import chatRouter from './routes/chats.routes';
 import CustomError from './exceptions/custom-error';
 import userRouter from './routes/users.routes';
+import AuthMiddleware from './middlewares/authenticate.middleware';
 
 const app: Application = express();
 
@@ -10,12 +11,12 @@ const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const apiLevelMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  console.log('Request URL:', req.originalUrl, req.body.last_connection);
-  next()
-}
+// const apiLevelMiddleware = (req: Request, res: Response, next: NextFunction) => {
+//   console.log('Request URL:', req.originalUrl, req.body.last_connection);
+//   next()
+// }
 
-app.use('/api/*', apiLevelMiddleware);
+// app.use('/api/*', apiLevelMiddleware);
 
 /**
  * Routes

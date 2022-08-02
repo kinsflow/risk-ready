@@ -26,6 +26,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare first_name: String;
     declare last_name: String;
     declare email: String;
+    declare phone: String;
     declare token: CreationOptional<number>
     declare email_verified_at: CreationOptional<Date>;
     declare password: String;
@@ -58,6 +59,10 @@ User.init({
             isEmail: true
         }
     },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     email_verified_at: {
         type: DataTypes.DATE,
         allowNull: true
@@ -77,11 +82,14 @@ User.init({
     modelName: 'User',
 
     scopes: {
-        withoutPassword: {
-            attributes: { exclude: ['password'] }
+
+    },
+    hooks: {
+        afterCreate: (record: any) => {
+            delete record.dataValues.password;
         },
-        withoutToken: {
-            attributes: { exclude: ['token'] }
+        afterUpdate: (record: any) => {
+            delete record.dataValues.password;
         }
     }
 });

@@ -7,6 +7,7 @@ export interface IUserRepo extends Repo<UserInstance> {
     signIn(email: string, password: string): Promise<UserInstance>;
     forgotPassword(email: string): Promise<any>,
     resetPassword(email: string, token: number, password: string): Promise<UserInstance>
+    updateProfile(id: string, userProfile: {}): Promise<UserInstance>
 }
 
 export interface UserInstance {
@@ -17,6 +18,7 @@ export interface UserInstance {
     email_verified_at: Date,
     password: string,
     token: number,
+    phone: string;
     createdAt?: Date,
     updatedAt: Date,
 }
@@ -28,7 +30,8 @@ export interface UserAttribute {
     email?: string,
     email_verified_at?: Date,
     password?: string,
-    token?: number
+    token?: number,
+    phone?: string;
 }
 
 export interface UserDTO {
@@ -38,5 +41,6 @@ export interface UserDTO {
     email: string,
     email_verified_at: Date,
     password: string,
+    phone: string;
     token?: number
 }

@@ -20,7 +20,11 @@ class SignInController extends BaseController {
 
             const signIn = await this.UserRepo.signIn(email, password);
 
-            return this.ok<UserDTO>(this.res, signIn, 'Sign in successful');
+            const signInModified: any = signIn;
+
+            delete signInModified.dataValues.password;
+
+            return this.ok<UserDTO>(this.res, signInModified, 'Sign in successful');
         } catch (error: any) {
                 return this.clientError(error, 401);
         }
