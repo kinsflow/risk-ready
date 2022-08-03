@@ -4,6 +4,7 @@ import chatRouter from './routes/chats.routes';
 import CustomError from './exceptions/custom-error';
 import userRouter from './routes/users.routes';
 import AuthMiddleware from './middlewares/authenticate.middleware';
+import propertyRouter from './routes/properties.routes';
 
 const app: Application = express();
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
  */
 app.use('/api/chats', chatRouter);
 app.use('/api/users', userRouter);
+app.use('/api/properties', AuthMiddleware, propertyRouter);
 
 /**
  * Handle App Level Error

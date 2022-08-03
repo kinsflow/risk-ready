@@ -4,10 +4,13 @@ import {
     Model,
     CreationOptional,
     DataTypes,
-    Sequelize
+    Sequelize,
+    Association,
+    HasManyGetAssociationsMixin
 } from 'sequelize';
 
 import dotenv from 'dotenv';
+import Property from './property';
 
 dotenv.config();
 
@@ -33,8 +36,10 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
 
-    declare static associations: {
+    declare getProperties: HasManyGetAssociationsMixin<Property>;
 
+    declare static associations: {
+        properties: Association<User, Property>;
     }
 }
 
@@ -92,6 +97,17 @@ User.init({
             delete record.dataValues.password;
         }
     }
+});
+
+User.hasMany(Property, {
+    onDelete: 'CASCADE',
+    onUpdate: 'NO ACTION',
+    as: 'properties',
+    foreignKey: {
+        allowNull: false,
+        name: "userId"
+    },
+    sourceKey: 'id'
 });
 
 export default User;

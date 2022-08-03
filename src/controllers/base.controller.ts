@@ -26,8 +26,12 @@ export abstract class BaseController {
     }
   }
 
-  public created(res: express.Response) {
-    return res.sendStatus(201);
+  public created<T>(res: express.Response, dto?: T, message?: string) {
+    return res.status(201).json({ message: message ?? 'Request was successful', data: dto });;
+  }
+
+  public deleted(res: express.Response) {
+    return res.sendStatus(204);
   }
 
   public clientError(message?: string, errorCode?: number) {
