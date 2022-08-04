@@ -23,7 +23,8 @@ class PropertyRepo implements IPropertyRepo {
             property.files.forEach(async file => {
                 await createPropery.createMedia({
                     file_path: file.originalname,
-                    type: file.mimetype
+                    type: file.mimetype,
+                    folder: file.destination
                 })
             });
             return createPropery
@@ -70,13 +71,14 @@ class PropertyRepo implements IPropertyRepo {
                     mediaable_id: propertyId,
                 }
             })
-            
+
             const newProperty = await Media.bulkCreate(property.files.map(file => {
                 return {
                     mediaable_type: 'Property',
                     mediaable_id: propertyId,
                     file_path: file.originalname,
-                    type: file.mimetype
+                    type: file.mimetype,
+                    folder: file.destination
                 }
             }))
 

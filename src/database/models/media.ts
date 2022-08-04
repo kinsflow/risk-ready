@@ -18,12 +18,14 @@ const sequelize = new Sequelize(databaseUrl, {
   }
 });
 
-class Media extends  Model<InferAttributes<Media>, InferCreationAttributes<Media>> {
+class Media extends Model<InferAttributes<Media>, InferCreationAttributes<Media>> {
   declare id: CreationOptional<number>;
   declare mediaable_type: string;
   declare mediaable_id: String;
   declare file_path: String;
   declare type: String;
+  declare fileUrl: String;
+  declare folder: String;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -59,7 +61,19 @@ Media.init({
   file_path: {
     type: DataTypes.STRING
   },
+  fileUrl: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      return `${process.env.APP_URL}${this.folder}${this.file_path}`;
+    },
+    set(value) {
+      throw new Error('Do not try to set the `fileUrl` value!');
+    }
+  },
   type: {
+    type: DataTypes.STRING
+  },
+  folder: {
     type: DataTypes.STRING
   },
   createdAt: DataTypes.DATE,

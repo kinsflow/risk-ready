@@ -15,9 +15,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       file_path: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       type: {
+        type: Sequelize.STRING
+      },
+      folder: {
         type: Sequelize.STRING
       },
       createdAt: {
