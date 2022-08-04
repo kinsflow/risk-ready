@@ -18,7 +18,10 @@ class VerifyEmailController extends BaseController {
             if (!email || !token) {
                 throw 'Ensure token and password are passed'
             }
-            const verifyEmail = await this.UserRepo.verifyEmail(email, token);
+            const verifyEmail: any = await this.UserRepo.verifyEmail(email, token);
+
+            delete verifyEmail.dataValues.token;
+            delete verifyEmail.dataValues.password;
 
             return this.ok<UserDTO>(this.res, verifyEmail, 'User Email Verified Successfully')
         } catch (error: any) {

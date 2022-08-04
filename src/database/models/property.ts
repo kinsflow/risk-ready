@@ -2,7 +2,7 @@ import { Association, CreationOptional, DataTypes, InferAttributes, InferCreatio
 import sequelizePaginate from 'sequelize-paginate';
 
 import dotenv from 'dotenv';
-import User from './user';
+import Media from './media';
 
 dotenv.config();
 
@@ -48,11 +48,17 @@ Property.init({
   },
   title: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   description: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   type: {
     type: DataTypes.STRING
@@ -66,6 +72,21 @@ Property.init({
   sequelize,
   modelName: 'Property',
 });
+
+Property.hasMany(Media, {
+  foreignKey: 'mediaable_id',
+  constraints: false,
+  scope: {
+    mediaable_type: 'Property'
+  },
+  as: 'Media'
+});
+
+Media.belongsTo(Property, {
+  foreignKey: 'mediaable_id',
+  constraints: false
+});
+
 const p: any = Property;
 sequelizePaginate.paginate(p);
 

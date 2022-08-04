@@ -75,6 +75,10 @@ class UserRepo implements IUserRepo {
 
         const user = await this.findByEmail(email);
 
+        if (user.email_verified_at) {
+            throw 'Email has been verified already'
+        }
+
         if (user.token !== token) {
             throw 'invalid token/otp'
         }
@@ -174,7 +178,12 @@ class UserRepo implements IUserRepo {
             first_name: userProfile.first_name,
             last_name: userProfile.last_name,
             email: userProfile.email,
-            phone: userProfile.phone
+            phone: userProfile.phone,
+            zipcode: userProfile.zipcode,
+            address: userProfile.address,
+            city: userProfile.city,
+            state: userProfile.state,
+            country: userProfile.country
         }, {
             where: {
                 id
@@ -205,7 +214,7 @@ class UserRepo implements IUserRepo {
     async getById(id: string): Promise<any> {
         return await this.model.findOne({ where: { id } })
     }
-    
+
     save(t: UserInstance): Promise<any> {
         throw new Error("Method not implemented.");
     }

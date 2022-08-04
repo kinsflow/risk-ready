@@ -11,6 +11,7 @@ import {
 
 import dotenv from 'dotenv';
 import Property from './property';
+import Media from './media';
 
 dotenv.config();
 
@@ -32,6 +33,11 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare phone: String;
     declare token: CreationOptional<number>
     declare email_verified_at: CreationOptional<Date>;
+    declare zipcode: CreationOptional<number>
+    declare address: CreationOptional<string>
+    declare city: CreationOptional<string>
+    declare state: CreationOptional<string>
+    declare country: CreationOptional<string>
     declare password: String;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
@@ -80,6 +86,26 @@ User.init({
         type: DataTypes.NUMBER,
         allowNull: true
     },
+    zipcode: {
+        type: DataTypes.NUMBER,
+        allowNull: true
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      city: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      state: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      country: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
 }, {
@@ -108,6 +134,20 @@ User.hasMany(Property, {
         name: "userId"
     },
     sourceKey: 'id'
+});
+
+User.hasMany(Media, {
+    foreignKey: 'mediaable_id',
+    constraints: false,
+    scope: {
+        mediaable_type: 'User'
+    },
+    as: 'Media'
+});
+
+Media.belongsTo(User, {
+    foreignKey: 'mediaable_id',
+    constraints: false
 });
 
 export default User;

@@ -16,13 +16,15 @@ class SignUpController extends BaseController {
             const userInfo = this.req.body;
             const userProfilePhoto = this.req.file;
 
-            const signUp = await this.UserRepo.signUp(userInfo, userProfilePhoto);
+            const signUp: any = await this.UserRepo.signUp(userInfo, userProfilePhoto);
 
             emailVerification(signUp.email, signUp.token);
 
+            delete signUp.dataValues.token;
+            
             return this.ok<UserDTO>(this.res, signUp, 'Sign up successful, check email for verification code');
         } catch (error: any) {
-                return this.clientError(error);
+            return this.clientError(error);
         }
     }
 }
