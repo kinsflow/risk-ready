@@ -12,11 +12,10 @@ class CreateProperty extends BaseController {
     protected async executeImpl(): Promise<any> {
         try {
             const { body, files, user }: any = this.req;
-
-            console.log(files);
             
             body.userId = user.id;
-            
+            body.files = files;
+
             const createProperty = await this.PropertyRepo.createProperty(body);
 
             return this.created<PropertyDTO>(this.res, createProperty, 'Property Added successfully');

@@ -11,10 +11,10 @@ class UpdateProperty extends BaseController {
     }
     protected async executeImpl(): Promise<any> {
         try {
-            const { body, params: {propertyId}, user }: any = this.req;
+            const { body, files, params: {propertyId}, user }: any = this.req;
 
             body.userId = user.id;
-            console.log(propertyId);
+            body.files = files;
             
             await this.PropertyRepo.updateProperty(propertyId, body);
 

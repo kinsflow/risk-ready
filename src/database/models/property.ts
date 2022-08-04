@@ -1,4 +1,4 @@
-import { Association, CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, Sequelize } from 'sequelize';
+import { Association, CreationOptional, DataTypes, HasManyAddAssociationsMixin, HasManyCreateAssociationMixin, HasManyGetAssociationsMixin, HasManyRemoveAssociationMixin, HasManySetAssociationsMixin, InferAttributes, InferCreationAttributes, Model, Sequelize } from 'sequelize';
 import sequelizePaginate from 'sequelize-paginate';
 
 import dotenv from 'dotenv';
@@ -28,10 +28,15 @@ class Property extends Model<InferAttributes<Property>, InferCreationAttributes<
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
+  declare createMedia: HasManyCreateAssociationMixin<Media>
+  declare addMedia: HasManyAddAssociationsMixin<Media, number>
+  declare getMedias: HasManyGetAssociationsMixin<Media>
+  declare setMedias: HasManySetAssociationsMixin<Media, number>
+  declare removeMedia: HasManyRemoveAssociationMixin<Media, number>
 
   declare static associations: {
     // define association here
-
+    medias: Association<Property, Media>;
   }
 }
 
@@ -79,7 +84,7 @@ Property.hasMany(Media, {
   scope: {
     mediaable_type: 'Property'
   },
-  as: 'Media'
+  as: 'medias'
 });
 
 Media.belongsTo(Property, {

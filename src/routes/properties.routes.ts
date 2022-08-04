@@ -12,7 +12,7 @@ const upload = multer({ dest: 'uploads/' });
 propertyRouter.post('/', upload.array('images', 4), (req, res) => new CreateProperty().execute(req, res));
 propertyRouter.get('/', (req, res) => new FetchProperties().execute(req, res));
 propertyRouter.get('/:propertyId', (req, res) => new FetchProperty().execute(req, res));
-propertyRouter.put('/:propertyId', (req, res) => new UpdateProperty().execute(req, res));
+propertyRouter.put('/:propertyId', upload.array('images', 4), (req, res) => new UpdateProperty().execute(req, res));
 propertyRouter.delete('/:propertyId', (req, res) => new DeleteProperty().execute(req, res));
 
 export default propertyRouter
