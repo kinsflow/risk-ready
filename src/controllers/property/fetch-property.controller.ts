@@ -16,6 +16,9 @@ class FetchProperty extends BaseController {
 
             const property = await this.PropertyRepo.findAProperty(propertyId);
 
+            // const propertym :any = this.res.sendFile(__dirname+'/uploads');
+            // console.log(propertym);
+            
             return this.ok<PropertyDTO>(this.res, property, 'Property Returned Successfully');
         } catch (error: any) {
             return this.clientError(error);

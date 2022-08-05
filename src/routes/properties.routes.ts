@@ -5,9 +5,20 @@ import FetchProperties from "../controllers/property/fetch-properties.controller
 import FetchProperty from "../controllers/property/fetch-property.controller";
 import UpdateProperty from "../controllers/property/update-property.controller";
 import multer from "multer";
+import path from 'path'
 
 const propertyRouter = Router();
-const upload = multer({ dest: 'uploads/' });
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))
+    }
+})
+
+const upload = multer({ storage: storage });
 
 propertyRouter.post('/', upload.array('images', 4), (req, res) => new CreateProperty().execute(req, res));
 propertyRouter.get('/', (req, res) => new FetchProperties().execute(req, res));

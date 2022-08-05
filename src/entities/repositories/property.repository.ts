@@ -20,9 +20,11 @@ class PropertyRepo implements IPropertyRepo {
                 category: property.category
             })
 
+            console.log(property.files);
+
             property.files.forEach(async file => {
                 await createPropery.createMedia({
-                    file_path: file.originalname,
+                    file_path: file.filename,
                     type: file.mimetype,
                     folder: file.destination
                 })
@@ -76,7 +78,7 @@ class PropertyRepo implements IPropertyRepo {
                 return {
                     mediaable_type: 'Property',
                     mediaable_id: propertyId,
-                    file_path: file.originalname,
+                    file_path: file.filename,
                     type: file.mimetype,
                     folder: file.destination
                 }

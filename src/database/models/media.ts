@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import Property from './property';
 import { uppercaseFirst } from '../../helper/helper';
 import User from './user';
-
+import fs from 'fs';
 dotenv.config();
 
 const databaseUrl: string = (process.env.DATABASE_URL as string);
@@ -64,7 +64,26 @@ Media.init({
   fileUrl: {
     type: DataTypes.VIRTUAL,
     get() {
-      return `${process.env.APP_URL}${this.folder}${this.file_path}`;
+      const directoryPath = "./../../../uploads/" + this.file_path;
+
+      return fs.readdir(directoryPath, (err, files) => {
+        if (err) {
+          return 'scanning error' + err
+        }
+
+        let fileInfos = [];
+        console.log('aye aye', files);
+        
+        files.forEach((file) => {
+          fileInfos.push({
+            name: file,
+            url: process.env.APP_URL + file,
+          });
+        });
+
+        return fileInfos;
+      })
+      //return directoryPath //`${process.env.APP_URL}${this.folder}${this.file_path}`;
     },
     set(value) {
       throw new Error('Do not try to set the `fileUrl` value!');

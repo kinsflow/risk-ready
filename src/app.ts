@@ -5,9 +5,11 @@ import CustomError from './exceptions/custom-error';
 import userRouter from './routes/users.routes';
 import AuthMiddleware from './middlewares/authenticate.middleware';
 import propertyRouter from './routes/properties.routes';
+import cors from 'cors';
 
 const app: Application = express();
-
+// handle cors issue.
+app.use(cors())
 // access body params especially when making a post/put request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
