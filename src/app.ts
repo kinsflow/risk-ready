@@ -10,6 +10,10 @@ import cors from 'cors';
 const app: Application = express();
 // handle cors issue.
 app.use(cors())
+
+// access file under the upload directory storage
+app.use('/uploads', express.static('uploads'));
+
 // access body params especially when making a post/put request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

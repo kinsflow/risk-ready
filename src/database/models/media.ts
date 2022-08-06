@@ -64,26 +64,7 @@ Media.init({
   fileUrl: {
     type: DataTypes.VIRTUAL,
     get() {
-      const directoryPath = "./../../../uploads/" + this.file_path;
-
-      return fs.readdir(directoryPath, (err, files) => {
-        if (err) {
-          return 'scanning error' + err
-        }
-
-        let fileInfos = [];
-        console.log('aye aye', files);
-        
-        files.forEach((file) => {
-          fileInfos.push({
-            name: file,
-            url: process.env.APP_URL + file,
-          });
-        });
-
-        return fileInfos;
-      })
-      //return directoryPath //`${process.env.APP_URL}${this.folder}${this.file_path}`;
+      return `${process.env.APP_URL}${this.folder}/${this.file_path}`;
     },
     set(value) {
       throw new Error('Do not try to set the `fileUrl` value!');
