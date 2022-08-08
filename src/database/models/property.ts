@@ -92,7 +92,7 @@ Media.belongsTo(Property, {
   constraints: false
 });
 
-const p: any = Property;
-sequelizePaginate.paginate(p);
+const property: any = Property;
+sequelizePaginate.paginate(property);
 
 export default Property

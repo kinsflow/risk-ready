@@ -5,6 +5,7 @@ import Property from './property';
 import { uppercaseFirst } from '../../helper/helper';
 import User from './user';
 import fs from 'fs';
+import Vault from './vault';
 dotenv.config();
 
 const databaseUrl: string = (process.env.DATABASE_URL as string);
@@ -37,6 +38,7 @@ class Media extends Model<InferAttributes<Media>, InferCreationAttributes<Media>
   declare static associate: {
     // define association here
     Property: Association<Media, Property>;
+    vault: Association<Media, Vault>;
   }
 
   getMediaable(options: any) {
@@ -67,7 +69,7 @@ Media.init({
       return `${process.env.APP_URL}${this.folder}/${this.file_path}`;
     },
     set(value) {
-      throw new Error('Do not try to set the `fileUrl` value!');
+      throw new Error(`Do not try to set the ${`fileUrl`} ${value} value!`);
     }
   },
   type: {
@@ -94,12 +96,16 @@ Media.addHook("afterFind", (findResult: any) => {
       instance.mediaable = instance.User;
     } else if (instance.mediaable_type === "Property" && instance.Property !== undefined) {
       instance.mediaable = instance.Property;
+    } else if (instance.mediaable_type === "Vault" && instance.Vault !== undefined) {
+      instance.mediaable = instance.Vault;
     }
     // delete to prevent duplicates
-    delete instance.Image;
-    delete instance.dataValues.Image;
-    delete instance.Video;
-    delete instance.dataValues.Video;
+    delete instance.User;
+    delete instance.dataValues.User;
+    delete instance.Property;
+    delete instance.dataValues.Property;
+    delete instance.Vault;
+    delete instance.dataValues.Vault;
   }
 });
 

@@ -6,6 +6,7 @@ import userRouter from './routes/users.routes';
 import AuthMiddleware from './middlewares/authenticate.middleware';
 import propertyRouter from './routes/properties.routes';
 import cors from 'cors';
+import vaultRouter from './routes/vaults.routes';
 
 const app: Application = express();
 // handle cors issue.
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/chats', chatRouter);
 app.use('/api/users', userRouter);
 app.use('/api/properties', AuthMiddleware, propertyRouter);
+app.use('/api/vaults', AuthMiddleware, vaultRouter);
 
 /**
  * Handle App Level Error

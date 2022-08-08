@@ -20,8 +20,6 @@ class PropertyRepo implements IPropertyRepo {
                 category: property.category
             })
 
-            console.log(property.files);
-
             property.files.forEach(async file => {
                 await createPropery.createMedia({
                     file_path: file.filename,
