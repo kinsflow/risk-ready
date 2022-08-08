@@ -14,9 +14,10 @@ class UpdateProfileController extends BaseController {
     protected async executeImpl(): Promise<any> {
         try {
             const req: any = this.req;
+            req.body.avatar = req.file;
             const userId = req.user.id;
 
-            await this.UserRepo.updateProfile(userId, this.req.body);
+            await this.UserRepo.updateProfile(userId, req.body);
 
             const updatedProfile: any = await this.UserRepo.getById(userId);
 

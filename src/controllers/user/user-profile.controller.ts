@@ -11,11 +11,14 @@ class UserProfileController extends BaseController {
         this.UserRepo = new UserRepo
     }
     protected async executeImpl(): Promise<any> {
-        const req: any = this.req;
-
-        const user: any = await this.UserRepo.getById(req.user.id);
-
         try {
+            const req: any = this.req;
+
+            const user: any = await this.UserRepo.getById(req.user.id);
+
+            delete user.dataValues.token;
+            delete user.dataValues.password;
+            
             return this.ok<UserDTO>(this.res, user, 'Sign in successful');
         }
         catch (error: any) {

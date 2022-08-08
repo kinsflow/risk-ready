@@ -7,6 +7,7 @@ import UpdateProfileController from "../controllers/user/update-profile.controll
 import UserProfileController from "../controllers/user/user-profile.controller";
 import VerifyEmailController from "../controllers/user/verify-email.controller";
 import AuthMiddleware from "../middlewares/authenticate.middleware";
+import upload from "../multer";
 
 const userRouter = Router();
 // const upload  multl
@@ -16,6 +17,6 @@ userRouter.post('/verify', (req, res) => new VerifyEmailController().execute(req
 userRouter.post('/forgot-password', (req, res) => new ForgotPasswordController().execute(req, res));
 userRouter.post('/reset-password', (req, res) => new ResetPasswordController().execute(req, res));
 userRouter.get('/profile', AuthMiddleware, (req, res) => new UserProfileController().execute(req, res));
-userRouter.put('/profile', AuthMiddleware, (req, res) => new UpdateProfileController().execute(req, res));
+userRouter.put('/profile', AuthMiddleware, upload.single('avatar'), (req, res) => new UpdateProfileController().execute(req, res));
 
 export default userRouter;

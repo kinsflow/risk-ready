@@ -6,7 +6,9 @@ import {
     DataTypes,
     Sequelize,
     Association,
-    HasManyGetAssociationsMixin
+    HasManyGetAssociationsMixin,
+    HasManyCreateAssociationMixin,
+    HasManyAddAssociationsMixin
 } from 'sequelize';
 
 import dotenv from 'dotenv';
@@ -44,8 +46,12 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 
     declare getProperties: HasManyGetAssociationsMixin<Property>;
 
+    declare createMedia: HasManyCreateAssociationMixin<Media>
+    declare addMedia: HasManyAddAssociationsMixin<Media, number>
+
     declare static associations: {
         properties: Association<User, Property>;
+        medias: Association<Property, Media>;
     }
 }
 
@@ -142,7 +148,7 @@ User.hasMany(Media, {
     scope: {
         mediaable_type: 'User'
     },
-    as: 'Media'
+    as: 'medias'
 });
 
 Media.belongsTo(User, {

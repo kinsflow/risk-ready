@@ -5,6 +5,7 @@ import { IUserRepo, UserAttribute, UserInstance } from "../interfaces/user.inter
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import forgotPassword from "../../notification/forgot-password.notification";
+import Media from "../../database/models/media";
 class UserRepo implements IUserRepo {
     private model: any;
 
@@ -174,23 +175,42 @@ class UserRepo implements IUserRepo {
 
     async updateProfile(id: string, userProfile: any): Promise<UserInstance> {
 
-        const updatePassword = this.model.update({
-            first_name: userProfile.first_name,
-            last_name: userProfile.last_name,
-            email: userProfile.email,
-            phone: userProfile.phone,
-            zipcode: userProfile.zipcode,
-            address: userProfile.address,
-            city: userProfile.city,
-            state: userProfile.state,
-            country: userProfile.country
-        }, {
-            where: {
-                id
-            }
-        })
+        try {
+            const updateProfile = await this.model.update({
+                first_name: userProfile.first_name,
+                last_name: userProfile.last_name,
+                email: userProfile.email,
+                phone: userProfile.phone,
+                zipcode: userProfile.zipcode,
+                address: userProfile.address,
+                city: userProfile.city,
+                state: userProfile.state,
+                country: userProfile.country
+            }, {
+                where: {
+                    id
+                }
+            })
 
-        return await updatePassword;
+            await Media.destroy({
+                where: {
+                    mediaable_type: 'User',
+                    mediaable_id: id,
+                }
+            })
+
+            const userAccount = await this.model.findOne({where: {id}});
+
+            await userAccount.createMedia({
+                file_path: userProfile.avatar.filename,
+                type: userProfile.avatar.mimetype,
+                folder: userProfile.avatar.destination
+            })
+
+            return updateProfile;
+        } catch (error) {
+            throw error.message
+        }
     }
     /**
      * Check if a user ccount exists
@@ -212,7 +232,15 @@ class UserRepo implements IUserRepo {
      * @returns 
      */
     async getById(id: string): Promise<any> {
-        return await this.model.findOne({ where: { id } })
+        try{
+
+            return await this.model.findOne({
+                where: { id },
+                include: ['medias']
+            })
+        }catch(error){
+            throw error.message
+        }
     }
 
     save(t: UserInstance): Promise<any> {
