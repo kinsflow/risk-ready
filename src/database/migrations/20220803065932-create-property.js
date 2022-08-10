@@ -32,6 +32,24 @@ module.exports = {
       category: {
         type: Sequelize.STRING
       },
+      item_name: {
+        type: Sequelize.STRING
+      },
+      date_of_purchase: {
+        type: Sequelize.DATE
+      },
+      model: {
+        type: Sequelize.STRING
+      },
+      purchase_price: {
+        type: Sequelize.FLOAT(11)
+      },
+      serial_number: {
+        type: Sequelize.STRING
+      },
+      made_by: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

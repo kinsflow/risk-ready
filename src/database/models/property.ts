@@ -22,9 +22,15 @@ class Property extends Model<InferAttributes<Property>, InferCreationAttributes<
   declare id: CreationOptional<number>;
   declare userId: number;
   declare title: String;
-  declare description: String
-  declare type: CreationOptional<String>
-  declare category: CreationOptional<String>
+  declare description: String;
+  declare type: CreationOptional<String>;
+  declare category: CreationOptional<String>;
+  declare item_name: CreationOptional<String>;
+  declare date_of_purchase: CreationOptional<Date>;
+  declare model: CreationOptional<String>;
+  declare purchase_price: CreationOptional<String>;
+  declare serial_number: CreationOptional<String>;
+  declare made_by: CreationOptional<String>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -69,6 +75,24 @@ Property.init({
     type: DataTypes.STRING
   },
   category: {
+    type: DataTypes.STRING
+  },
+  item_name: {
+    type: DataTypes.STRING
+  },
+  date_of_purchase: {
+    type: DataTypes.DATE
+  },
+  model: {
+    type: DataTypes.STRING
+  },
+  purchase_price: {
+    type: DataTypes.FLOAT(11)
+  },
+  serial_number: {
+    type: DataTypes.STRING
+  },
+  made_by: {
     type: DataTypes.STRING
   },
   createdAt: DataTypes.DATE,

@@ -15,6 +15,12 @@ export interface PropertyInstance {
     description: string,
     type: string,
     category: string,
+    item_name: string,
+    date_of_purchase: Date,
+    model: string,
+    purchase_price: number,
+    serial_number: string,
+    made_by: string
     createdAt?: Date,
     updatedAt: Date,
 }
@@ -25,7 +31,13 @@ export interface PropertyAttribute {
     title?: string,
     description?: string,
     type?: string,
-    category?: string
+    category?: string,
+    item_name?: string,
+    date_of_purchase?: Date,
+    model?: string,
+    purchase_price?: number,
+    serial_number?: string,
+    made_by?: string
 }
 
 
@@ -36,4 +48,10 @@ export interface PropertyDTO {
     description: string,
     type: string,
     category: string,
+    item_name: string,
+    date_of_purchase: Date,
+    model: string,
+    purchase_price: number,
+    serial_number: string,
+    made_by: string
 }

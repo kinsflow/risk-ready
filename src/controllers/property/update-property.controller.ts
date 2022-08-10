@@ -1,5 +1,6 @@
 import { IPropertyRepo, PropertyDTO } from "../../entities/interfaces/property.interface";
 import PropertyRepo from "../../entities/repositories/property.repository";
+import { setEmptyFieldToNull } from "../../helper/helper";
 import { BaseController } from "../base.controller";
 
 class UpdateProperty extends BaseController {
@@ -16,11 +17,11 @@ class UpdateProperty extends BaseController {
             body.userId = user.id;
             body.files = files;
             
+            setEmptyFieldToNull(body);
+            
             await this.PropertyRepo.updateProperty(propertyId, body);
 
             const createdProperty = await this.PropertyRepo.findAProperty(propertyId);
-
-            console.log(createdProperty);
             
             return this.ok<PropertyDTO>(this.res, createdProperty, 'Property Updated successfully');
         } catch (error: any) {            

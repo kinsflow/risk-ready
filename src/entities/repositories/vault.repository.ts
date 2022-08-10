@@ -16,22 +16,26 @@ class VaultRepo implements IVaultRepo {
      * @returns 
      */
     async createVault(vaults: VaultAttribute | any): Promise<VaultInstance> {
-        const createVaults = await this.model.create({
-            userId: vaults.userId,
-            name: vaults.name,
-            type: vaults.type,
-            description: vaults.description
-        });
+        try {
+            const createVaults = await this.model.create({
+                userId: vaults.userId,
+                name: vaults.name,
+                type: vaults.type,
+                description: vaults.description
+            });
 
-        vaults.files.forEach(async file => {
-            await createVaults.createMedia({
-                file_path: file.filename,
-                type: file.mimetype,
-                folder: file.destination
-            })
-        });
+            vaults.files.forEach(async file => {
+                await createVaults.createMedia({
+                    file_path: file.filename,
+                    type: file.mimetype,
+                    folder: file.destination
+                })
+            });
 
-        return createVaults
+            return createVaults
+        } catch (error) {
+            throw error
+        }
     }
 
     updateVault(vaults: VaultAttribute): Promise<VaultInstance> {

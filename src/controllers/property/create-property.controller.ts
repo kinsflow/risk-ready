@@ -1,5 +1,6 @@
 import { IPropertyRepo, PropertyDTO } from "../../entities/interfaces/property.interface";
 import PropertyRepo from "../../entities/repositories/property.repository";
+import { setEmptyFieldToNull } from "../../helper/helper";
 import { BaseController } from "../base.controller";
 
 class CreateProperty extends BaseController {
@@ -12,9 +13,11 @@ class CreateProperty extends BaseController {
     protected async executeImpl(): Promise<any> {
         try {
             const { body, files, user }: any = this.req;
-            
+
             body.userId = user.id;
             body.files = files;
+
+            setEmptyFieldToNull(body);
 
             const createProperty = await this.PropertyRepo.createProperty(body);
 

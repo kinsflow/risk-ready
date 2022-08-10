@@ -17,7 +17,13 @@ class PropertyRepo implements IPropertyRepo {
                 title: property.title,
                 description: property.description,
                 type: property.type,
-                category: property.category
+                category: property.category,
+                item_name: property.item_name,
+                date_of_purchase: property.date_of_purchase,
+                model: property.model,
+                purchase_price: property.purchase_price,
+                serial_number: property.serial_number,
+                made_by: property.made_by
             })
 
             property.files.forEach(async file => {
@@ -29,7 +35,7 @@ class PropertyRepo implements IPropertyRepo {
             });
             return createPropery
         } catch (error) {
-            throw error.message
+            throw error
         }
     }
 
@@ -58,21 +64,27 @@ class PropertyRepo implements IPropertyRepo {
                 title: property.title,
                 description: property.description,
                 type: property.type,
-                category: property.category
+                category: property.category,
+                item_name: property.item_name,
+                date_of_purchase: property.date_of_purchase,
+                model: property.model,
+                purchase_price: property.purchase_price,
+                serial_number: property.serial_number,
+                made_by: property.made_by
             }, {
                 where: {
                     id: propertyId
                 }
             })
 
-            Media.destroy({
+            await Media.destroy({
                 where: {
                     mediaable_type: 'Property',
                     mediaable_id: propertyId,
                 }
             })
 
-            const newProperty = await Media.bulkCreate(property.files.map(file => {
+            await Media.bulkCreate(property.files.map((file: any) => {
                 return {
                     mediaable_type: 'Property',
                     mediaable_id: propertyId,
