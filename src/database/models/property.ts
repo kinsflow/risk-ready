@@ -81,7 +81,10 @@ Property.init({
     type: DataTypes.STRING
   },
   date_of_purchase: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    validate: {
+      isDate: true
+    }
   },
   model: {
     type: DataTypes.STRING

@@ -11,6 +11,11 @@ class DownloadVaultsController extends BaseController {
         this.VaultRepo = new VaultRepo;
     }
 
+    /**
+     * Handle the download of the vault's document.
+     * 
+     * @returns 
+     */
     protected async executeImpl(): Promise<any> {
         try {
             const { params: { vaultId } } = this.req;
