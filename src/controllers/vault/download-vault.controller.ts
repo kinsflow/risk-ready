@@ -25,7 +25,6 @@ class DownloadVaultsController extends BaseController {
             return this.clientError(error);
         }
     }
-
 }
 
 export default DownloadVaultsController
