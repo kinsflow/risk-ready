@@ -9,6 +9,7 @@ class UserMap extends Mapper<User>{
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
+            phone: user.phone,
             email_verified_at: user.email_verified_at,
             password: user.password
         }
