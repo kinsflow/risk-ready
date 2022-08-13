@@ -1,5 +1,7 @@
 export const ConnectionEnum = {
     CONFIRMED_CONNECTION: 'confirmed',
     BLOCKED_CONNECTION: 'blocked',
-    PENDING_CONNECTION: 'pending'
+    UNBLOCKED_CONNECTION: 'unblocked',
+    PENDING_CONNECTION: 'pending',
+    DECLINED_CONNECTION: 'declined',
 }

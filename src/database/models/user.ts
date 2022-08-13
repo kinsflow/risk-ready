@@ -14,6 +14,7 @@ import {
 import dotenv from 'dotenv';
 import Property from './property';
 import Media from './media';
+import Connection from './connection';
 
 dotenv.config();
 
@@ -95,23 +96,23 @@ User.init({
     zipcode: {
         type: DataTypes.NUMBER,
         allowNull: true
-      },
-      address: {
+    },
+    address: {
         type: DataTypes.STRING,
         allowNull: true
-      },
-      city: {
+    },
+    city: {
         type: DataTypes.STRING,
         allowNull: true
-      },
-      state: {
+    },
+    state: {
         type: DataTypes.STRING,
         allowNull: true
-      },
-      country: {
+    },
+    country: {
         type: DataTypes.STRING,
         allowNull: true
-      },
+    },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
 }, {
@@ -156,4 +157,15 @@ Media.belongsTo(User, {
     constraints: false
 });
 
+Connection.belongsTo(User, {
+    foreignKey: 'first_user',
+    constraints: false,
+    as: 'first_user_model'
+});
+
+Connection.belongsTo(User, {
+    foreignKey: 'second_user',
+    constraints: false,
+    as: 'second_user_model'
+});
 export default User;

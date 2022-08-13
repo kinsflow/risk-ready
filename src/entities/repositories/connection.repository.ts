@@ -89,11 +89,20 @@ class ConnectionRepo implements IConnectionRepo {
     exists(t: string | ConnectionInstance): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
-    delete(t: ConnectionInstance): Promise<any> {
-        throw new Error("Method not implemented.");
+    async delete(id: ConnectionInstance): Promise<any> {
+        return await this.model.destroy({
+            where: {
+                id
+            }
+        })
     }
-    getById(id: string): Promise<ConnectionInstance> {
-        throw new Error("Method not implemented.");
+    async getById(id: string): Promise<ConnectionInstance> {
+        return await this.model.findOne({
+            where: {
+                id
+            },
+            include: ['first_user_model', 'second_user_model']
+        })
     }
     save(t: ConnectionInstance): Promise<any> {
         throw new Error("Method not implemented.");

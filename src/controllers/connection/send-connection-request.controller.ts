@@ -14,6 +14,9 @@ class SendConnectionRequest extends BaseController {
         try {
             const { query: { user_id }, user: { id } }: any = this.req;
 
+            if(!user_id){
+                return this.clientError('user_id is required', 422)
+            }
             if (id == user_id) {
                 return this.clientError('You cannot send a request to yourself', 403)
             }
@@ -26,9 +29,9 @@ class SendConnectionRequest extends BaseController {
             }
 
             // check if auth user have received a connection request before from the prospective user
-            const receivedConection: any = await this.ConnectionRepo.haveIReceivedAConnectionRequest(user_id, id);
+            const receivedConnection: any = await this.ConnectionRepo.haveIReceivedAConnectionRequest(user_id, id);
 
-            if (receivedConection.length) {
+            if (receivedConnection.length) {
                 return this.conflict('Hey!! you have a pending friend request from this user, kindly accept or decline on your list of pending friend request')
             }
 
@@ -54,7 +57,6 @@ class SendConnectionRequest extends BaseController {
             return this.clientError(error);
         }
     }
-
 }
 
 export default SendConnectionRequest
