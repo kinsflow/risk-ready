@@ -54,6 +54,10 @@ class ConnectionActionController extends BaseController {
 
                 connection.status = ConnectionEnum.CONFIRMED_CONNECTION;
 
+                if (connection.acted_user == id) {
+                    return this.clientError("Hey!! you cannot confirm a connection request you made to another user");
+                }
+
                 await connection.save();
 
                 return this.ok<ConnectionDTO>(this.res, connection, 'Connection Request Accepted Successfully')

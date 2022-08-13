@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
 import Connection from "../../database/models/connection";
+import User from "../../database/models/user";
 import { ConnectionEnum } from "../../enum/connection.enum";
 import { ConnectionInstance, IConnectionRepo } from "../interfaces/connection.interface";
 
@@ -79,6 +80,36 @@ class ConnectionRepo implements IConnectionRepo {
         } catch (error) {
             throw error
         }
+    }
+
+    async retrieveConnections(userId: string, action: string, per_page: number, page_no: number): Promise<ConnectionInstance> {
+        return await this.model.paginate({
+            where: {
+                [Op.or]: [
+                    {
+                        first_user: userId
+                    },
+                    {
+                        second_user: userId
+                    }
+                ],
+                status: action
+            },
+            include: [
+                {
+                    as: 'first_user_model',
+                    model: User,
+                    attributes: ['first_name', 'last_name', 'email', 'phone', 'address']
+                },
+                {
+                    as: 'second_user_model',
+                    model: User,
+                    attributes: ['first_name', 'last_name', 'email', 'phone', 'address']
+                }
+            ],
+            page: page_no,
+            paginate: per_page,
+        })
     }
     approveConnectionRequest(connectionId: string): Promise<ConnectionInstance> {
         throw new Error("Method not implemented.");

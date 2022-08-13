@@ -8,6 +8,7 @@ export interface IConnectionRepo extends Repo<ConnectionInstance> {
     haveIReceivedAConnectionRequest(propsectiveConnectionId: string, authUserId: string): Promise<ConnectionInstance>;
     isAConnectionAlready(propsectiveConnectionId: string, authUserId: string): Promise<ConnectionInstance>;
     isConectionBlockedAlready(propsectiveConnectionId: string, authUserId: string): Promise<ConnectionInstance>;
+    retrieveConnections(userId: string, action: string, per_page: number, page_no: number): Promise<ConnectionInstance>;
 }
 
 export interface ConnectionInstance {
