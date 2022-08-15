@@ -26,7 +26,7 @@ class UserRepo implements IUserRepo {
             first_name: userInfo.first_name,
             last_name: userInfo.last_name,
             email: userInfo.email,
-            phone: userInfo.phone,
+            phone: userInfo?.phone,
             password: await bcryptjs.hash(userInfo.password, 10),
             token: generateOTP()
         })
