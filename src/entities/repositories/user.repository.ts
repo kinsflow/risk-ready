@@ -185,7 +185,9 @@ class UserRepo implements IUserRepo {
                 address: userProfile.address,
                 city: userProfile.city,
                 state: userProfile.state,
-                country: userProfile.country
+                country: userProfile.country,
+                longitude: userProfile.longitude,
+                latitude: userProfile.latitude
             }, {
                 where: {
                     id

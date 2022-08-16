@@ -41,6 +41,8 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare city: CreationOptional<string>
     declare state: CreationOptional<string>
     declare country: CreationOptional<string>
+    declare latitude: CreationOptional<string>
+    declare longitude: CreationOptional<string>
     declare password: String;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
@@ -110,6 +112,14 @@ User.init({
         allowNull: true
     },
     country: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    longitude: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    latitude: {
         type: DataTypes.STRING,
         allowNull: true
     },
