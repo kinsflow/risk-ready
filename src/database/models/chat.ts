@@ -8,19 +8,10 @@ import {
 } from 'sequelize';
 
 import dotenv from 'dotenv';
+import { sequelize } from './index';
 
 dotenv.config();
 
-const databaseUrl: string = (process.env.DATABASE_URL as string);
-
-const sequelize = new Sequelize(databaseUrl, {
-  dialectOptions: {
-    ssl: process.env.NODE_ENV == 'production' && {
-      require: true,
-      rejectUnauthorized: false
-    }
-  }
-});
 class Chat extends Model<InferAttributes<Chat>, InferCreationAttributes<Chat>> {
   declare id: CreationOptional<number>;
   declare last_connection: CreationOptional<Date>;

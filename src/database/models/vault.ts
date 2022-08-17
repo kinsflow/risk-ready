@@ -3,16 +3,7 @@
 import { CreationOptional, DataTypes, HasManyAddAssociationsMixin, HasManyCreateAssociationMixin, Model, Sequelize } from "sequelize";
 import  sequelizePaginate  from "sequelize-paginate";
 import Media from "./media";
-
-const databaseUrl: string = (process.env.DATABASE_URL as string);
-const sequelize = new Sequelize(databaseUrl, {
-  dialectOptions: {
-    ssl: process.env.NODE_ENV == 'production' && {
-      require: true,
-      rejectUnauthorized: false
-    }
-  }
-});
+import { sequelize } from './index';
 
 class Vault extends Model {
   declare id: CreationOptional<number>;
@@ -78,7 +69,7 @@ Media.belongsTo(Vault, {
   constraints: false
 });
 
-const property: any = Vault;
-sequelizePaginate.paginate(property);
+const vaults: any = Vault;
+sequelizePaginate.paginate(vaults);
 
 export default Vault;

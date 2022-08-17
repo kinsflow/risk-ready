@@ -6,18 +6,8 @@ import { uppercaseFirst } from '../../helper/helper';
 import User from './user';
 import fs from 'fs';
 import Vault from './vault';
+import { sequelize } from './index';
 dotenv.config();
-
-const databaseUrl: string = (process.env.DATABASE_URL as string);
-
-const sequelize = new Sequelize(databaseUrl, {
-  dialectOptions: {
-    ssl: process.env.NODE_ENV == 'production' && {
-      require: true,
-      rejectUnauthorized: false
-    }
-  }
-});
 
 class Media extends Model<InferAttributes<Media>, InferCreationAttributes<Media>> {
   declare id: CreationOptional<number>;

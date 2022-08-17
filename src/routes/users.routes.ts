@@ -1,5 +1,6 @@
 import { Router } from "express";
 import ForgotPasswordController from "../controllers/user/forgot-password.controller";
+import NeigboursController from "../controllers/user/neigbours.controller";
 import ResetPasswordController from "../controllers/user/reset-password.controller";
 import SignInController from "../controllers/user/sign-in.controller";
 import SignUpController from "../controllers/user/sign-up.controller";
@@ -18,5 +19,6 @@ userRouter.post('/forgot-password', (req, res) => new ForgotPasswordController()
 userRouter.post('/reset-password', (req, res) => new ResetPasswordController().execute(req, res));
 userRouter.get('/profile', AuthMiddleware, (req, res) => new UserProfileController().execute(req, res));
 userRouter.put('/profile', AuthMiddleware, upload.single('avatar'), (req, res) => new UpdateProfileController().execute(req, res));
+userRouter.get('/neighbours', AuthMiddleware, (req, res) => new NeigboursController().execute(req, res));
 
 export default userRouter;

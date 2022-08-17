@@ -4,30 +4,19 @@ import {
     Model,
     CreationOptional,
     DataTypes,
-    Sequelize,
     Association,
     HasManyGetAssociationsMixin,
     HasManyCreateAssociationMixin,
     HasManyAddAssociationsMixin
 } from 'sequelize';
-
-import dotenv from 'dotenv';
+import sequelizePaginate from "sequelize-paginate";
 import Property from './property';
 import Media from './media';
 import Connection from './connection';
+import { sequelize } from './index';
 
-dotenv.config();
 
-const databaseUrl: string = (process.env.DATABASE_URL as string);
 
-const sequelize = new Sequelize(databaseUrl, {
-    dialectOptions: {
-        ssl: process.env.NODE_ENV == 'production' && {
-            require: true,
-            rejectUnauthorized: false
-        }
-    }
-});
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare id: CreationOptional<number>;
     declare first_name: String;
@@ -178,4 +167,8 @@ Connection.belongsTo(User, {
     constraints: false,
     as: 'second_user_model'
 });
+
+const users: any = User;
+sequelizePaginate.paginate(users);
+
 export default User;

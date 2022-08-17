@@ -1,21 +1,10 @@
 import { Association, CreationOptional, DataTypes, HasManyAddAssociationsMixin, HasManyCreateAssociationMixin, HasManyGetAssociationsMixin, HasManyRemoveAssociationMixin, HasManySetAssociationsMixin, InferAttributes, InferCreationAttributes, Model, Sequelize } from 'sequelize';
 import sequelizePaginate from 'sequelize-paginate';
-
+import { sequelize } from './index';
 import dotenv from 'dotenv';
 import Media from './media';
 
 dotenv.config();
-
-const databaseUrl: string = (process.env.DATABASE_URL as string);
-
-const sequelize = new Sequelize(databaseUrl, {
-  dialectOptions: {
-    ssl: process.env.NODE_ENV == 'production' && {
-      require: true,
-      rejectUnauthorized: false
-    }
-  }
-});
 
 class Property extends Model<InferAttributes<Property>, InferCreationAttributes<Property>> {
 

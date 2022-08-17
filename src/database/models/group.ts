@@ -1,15 +1,5 @@
 import { DataTypes, Sequelize } from "sequelize";
-
-const databaseUrl: string = (process.env.DATABASE_URL as string);
-
-const sequelize = new Sequelize(databaseUrl, {
-  dialectOptions: {
-    ssl: process.env.NODE_ENV == 'production' && {
-      require: true,
-      rejectUnauthorized: false
-    }
-  }
-});
+import { sequelize } from './index';
 
 class Group extends Model {
   declare title: String;

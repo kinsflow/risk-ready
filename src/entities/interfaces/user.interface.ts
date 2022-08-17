@@ -8,6 +8,7 @@ export interface IUserRepo extends Repo<UserInstance> {
     forgotPassword(email: string): Promise<any>,
     resetPassword(email: string, token: number, password: string): Promise<UserInstance>
     updateProfile(id: string, userProfile: {}): Promise<UserInstance>
+    fetchNeigbours(userId: string, per_page: number, page_no: number): Promise<UserInstance>
 }
 
 export interface UserInstance {

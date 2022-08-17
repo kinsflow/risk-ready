@@ -6,6 +6,9 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import forgotPassword from "../../notification/forgot-password.notification";
 import Media from "../../database/models/media";
+import { Op } from "sequelize";
+import { sequelize } from "../../database/models";
+
 class UserRepo implements IUserRepo {
     private model: any;
 
@@ -201,7 +204,7 @@ class UserRepo implements IUserRepo {
                 }
             })
 
-            const userAccount = await this.model.findOne({where: {id}});
+            const userAccount = await this.model.findOne({ where: { id } });
 
             await userAccount.createMedia({
                 file_path: userProfile.avatar.filename,
@@ -214,8 +217,72 @@ class UserRepo implements IUserRepo {
             throw error.message
         }
     }
+
+    async fetchNeigbours(id: string, per_page: number, page_no: number): Promise<UserInstance | any> {
+        try {
+            const latitude = 28.626137;
+            const longitude = 79.821602;
+            const distance = 20;
+
+            const haversine = `(
+                6371 * acos(
+                    cos(radians(${latitude}))
+                    * cos(radians(latitude::numeric))
+                    * cos(radians(longitude::numeric) - radians(${longitude}))
+                    + sin(radians(${latitude})) * sin(radians(latitude::numeric))
+                )
+            )`;
+
+            const neigbours = await this.model.paginate({
+                attributes: [
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'phone',
+                    'address',
+                    [sequelize.literal(`round(${haversine}::numeric, 2)`), 'distance']
+                ],
+                include: ['medias'],
+                where: {
+                    [Op.and]: [
+                        sequelize.where(sequelize.literal(haversine), '<=', distance),
+                        {
+                            email_verified_at: {
+                                [Op.ne]: null
+                            }
+                        },
+                        {
+                            longitude: {
+                                [Op.ne]: null
+                            }
+                        },
+                        {
+                            latitude: {
+                                [Op.ne]: null
+                            }
+                        },
+                        {
+                            id: {
+                                [Op.ne]: [id]
+                            }
+                        }
+                    ],
+                },
+                order: sequelize.col('distance'),
+                page: page_no,
+                paginate: per_page,
+            })
+
+            return neigbours;
+        } catch (error) {
+            throw error.message
+        }
+
+    }
+
     /**
-     * Check if a user ccount exists
+     * Check if a user count exists
      * @param email 
      * @returns 
      */
@@ -234,13 +301,12 @@ class UserRepo implements IUserRepo {
      * @returns 
      */
     async getById(id: string): Promise<any> {
-        try{
-
+        try {
             return await this.model.findOne({
                 where: { id },
                 include: ['medias']
             })
-        }catch(error){
+        } catch (error) {
             throw error.message
         }
     }

@@ -2,16 +2,8 @@
 
 import { CreationOptional, DataTypes, Model, Sequelize } from "sequelize";
 import sequelizePaginate from "sequelize-paginate";
+import { sequelize } from './index';
 
-const databaseUrl: string = (process.env.DATABASE_URL as string);
-const sequelize = new Sequelize(databaseUrl, {
-  dialectOptions: {
-    ssl: process.env.NODE_ENV == 'production' && {
-      require: true,
-      rejectUnauthorized: false
-    }
-  }
-});
 class Connection extends Model {
   /**
    * Helper method for defining associations.
