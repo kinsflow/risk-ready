@@ -1,0 +1,24 @@
+name: deploy
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *' # Everyday at 12am
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - id: deploy
+    name: Deploy to dokku
+    uses: idoberko2/dokku-deploy-github-action@v1
+    with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        dokku-host: '3.8.98.174'
+        app-name: 'risk-ready'
+        git-push-flags: --force
