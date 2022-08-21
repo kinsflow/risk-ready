@@ -18,6 +18,6 @@ jobs:
         uses: idoberko2/dokku-deploy-github-action@v1
         with:
             ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-            dokku-host: '3.8.98.174'
+            dokku-host: '13.40.75.98'
             app-name: 'risk-ready'
             git-push-flags: --force
