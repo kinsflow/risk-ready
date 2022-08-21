@@ -1,1 +1,1 @@
-web:ts-node src/server.ts && npx sequelize db:migrate:all
+web:npm run start
