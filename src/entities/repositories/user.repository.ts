@@ -48,6 +48,15 @@ class UserRepo implements IUserRepo {
         }
         const user = await this.findByEmail(email);
 
+        if(!user.email_verified_at){
+            user.token = generateOTP();
+            user.save();
+
+            emailVerification(user.email, user.token);
+
+            throw 'Unable to signin. account not verified, check you email for the new token that was sent';
+        }
+
         const isPasswordMatch = await bcryptjs.compare(password, user.password);
 
         if (!isPasswordMatch) {
