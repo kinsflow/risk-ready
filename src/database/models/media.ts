@@ -56,7 +56,7 @@ Media.init({
   fileUrl: {
     type: DataTypes.VIRTUAL,
     get() {
-      return `${process.env.APP_URL}${this.folder}/${this.file_path}`;
+      return process.env.NODE_ENV == 'local' ? `${process.env.APP_URL}${this.folder}/${this.file_path}` : this.folder;
     },
     set(value) {
       throw new Error(`Do not try to set the ${`fileUrl`} ${value} value!`);

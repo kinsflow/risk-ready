@@ -217,9 +217,9 @@ class UserRepo implements IUserRepo {
                 const userAccount = await this.model.findOne({ where: { id } });
 
                 await userAccount.createMedia({
-                    file_path: userProfile.avatar.filename,
+                    file_path: userProfile.avatar.filename || userProfile.avatar.key,
                     type: userProfile.avatar.mimetype,
-                    folder: userProfile.avatar.destination
+                    folder: userProfile.avatar.destination || userProfile.avatar.location
                 })
             }
             return updateProfile;
