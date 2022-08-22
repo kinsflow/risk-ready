@@ -196,22 +196,23 @@ class UserRepo implements IUserRepo {
                     id
                 }
             })
+            
+            if (userProfile?.avatar) {
+                await Media.destroy({
+                    where: {
+                        mediaable_type: 'User',
+                        mediaable_id: id,
+                    }
+                })
 
-            await Media.destroy({
-                where: {
-                    mediaable_type: 'User',
-                    mediaable_id: id,
-                }
-            })
+                const userAccount = await this.model.findOne({ where: { id } });
 
-            const userAccount = await this.model.findOne({ where: { id } });
-
-            await userAccount.createMedia({
-                file_path: userProfile.avatar.filename,
-                type: userProfile.avatar.mimetype,
-                folder: userProfile.avatar.destination
-            })
-
+                await userAccount.createMedia({
+                    file_path: userProfile.avatar.filename,
+                    type: userProfile.avatar.mimetype,
+                    folder: userProfile.avatar.destination
+                })
+            }
             return updateProfile;
         } catch (error) {
             throw error.message
