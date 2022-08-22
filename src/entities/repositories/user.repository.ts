@@ -220,9 +220,13 @@ class UserRepo implements IUserRepo {
     }
 
     async fetchNeigbours(id: string, per_page: number, page_no: number): Promise<UserInstance | any> {
+
+        const userAccount = await this.model.findOne({ where: { id } });
+        
         try {
-            const latitude = 28.626137;
-            const longitude = 79.821602;
+            const latitude = userAccount.latitude;
+            const longitude = userAccount.longitude;
+            
             const distance = 20;
 
             const haversine = `(
