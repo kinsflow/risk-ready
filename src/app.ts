@@ -11,7 +11,9 @@ import connectionRouter from './routes/connections.routes';
 
 const app: Application = express();
 // handle cors issue.
-app.use(cors())
+app.use(cors({
+  origin: '*'
+}))
 
 // access file under the upload directory storage
 app.use('/uploads', express.static('uploads'));
