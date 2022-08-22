@@ -26,9 +26,9 @@ class VaultRepo implements IVaultRepo {
 
             vaults.files.forEach(async file => {
                 await createVaults.createMedia({
-                    file_path: file.filename,
+                    file_path: file.filename || file.key,
                     type: file.mimetype,
-                    folder: file.destination
+                    folder: file.destination || file.location
                 })
             });
 

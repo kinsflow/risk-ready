@@ -17,7 +17,7 @@ class UpdateProperty extends BaseController {
             body.userId = user.id;
             body.files = files;
             
-            setEmptyFieldToNull(body);
+            // setEmptyFieldToNull(body);
             
             await this.PropertyRepo.updateProperty(propertyId, body);
 

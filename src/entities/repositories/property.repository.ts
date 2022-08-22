@@ -28,14 +28,14 @@ class PropertyRepo implements IPropertyRepo {
 
             property.files.forEach(async file => {
                 await createPropery.createMedia({
-                    file_path: file.filename,
+                    file_path: file.filename || file.key,
                     type: file.mimetype,
-                    folder: file.destination
+                    folder: file.destination || file.location
                 })
             });
             return createPropery
         } catch (error) {
-            throw error
+            throw error.message
         }
     }
 
@@ -88,9 +88,9 @@ class PropertyRepo implements IPropertyRepo {
                 return {
                     mediaable_type: 'Property',
                     mediaable_id: propertyId,
-                    file_path: file.filename,
+                    file_path: file.filename || file.key,
                     type: file.mimetype,
-                    folder: file.destination
+                    folder: file.destination || file.location
                 }
             }))
 

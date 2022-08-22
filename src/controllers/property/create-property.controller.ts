@@ -17,7 +17,8 @@ class CreateProperty extends BaseController {
             body.userId = user.id;
             body.files = files;
 
-            setEmptyFieldToNull(body);
+            // setEmptyFieldToNull(body);
+            
 
             const createProperty = await this.PropertyRepo.createProperty(body);
 
